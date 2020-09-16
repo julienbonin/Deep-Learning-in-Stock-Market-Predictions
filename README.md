@@ -1,4 +1,4 @@
-<center> # Deep Learning in Stock Market Predictions</center>
+# Deep Learning in Stock Market Predictions
 
 ## Members
 ```
@@ -7,4 +7,6 @@ Christopher Lanphier
 Ernest Antwi
 Forest Bertrand
 ```
+
+## 
 
