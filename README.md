@@ -2,7 +2,11 @@
 
 ## Members
 Julien Bonin
+
 Christopher Lanphier
+
 Ernest Antwi
+
 Forest Bertrand
+
 
