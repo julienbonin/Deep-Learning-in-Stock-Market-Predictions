@@ -1,4 +1,4 @@
-# <center>Deep Learning in Stock Market Predictions</center>
+<center> # Deep Learning in Stock Market Predictions</center>
 
 ## Members
 ```
