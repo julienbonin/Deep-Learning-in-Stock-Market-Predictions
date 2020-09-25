@@ -1,5 +1,6 @@
 import requests
 import datetime
+import pandas as pd
 
 
 class Stock:
@@ -21,6 +22,7 @@ class Stock:
     @staticmethod
     def getSupportedStocks():
         url = 'https://cloud.iexapis.com/beta/ref-data/symbols?token=' + Stock.__token
+        print(url)
         resp = requests.get(url)
         if resp.status_code != 200:
             print('Something went wrong!')
@@ -33,7 +35,7 @@ class Stock:
     def changeToken(i):
         Stock.__token = Stock.__tokenList[i]
 
-    def get_ohlc(self, days_back):
+    def get_ohlc_day(self, days_back):
         ohlc = []
         i = 0
         while i < days_back:
@@ -52,6 +54,28 @@ class Stock:
             i += 1
         return ohlc
 
+    def get_ohlc_minute(self, days_back):
+        ohlc = []
+        i = 0
+        while i < days_back:
+            time_delta = datetime.timedelta(days=i)
+            today = datetime.date.today()
+            current_day = today - time_delta
+            date = '{:02d}{:02d}{:02d}'.format(current_day.year, current_day.month, current_day.day)
+            url = self.__url + 'stock/' + self.__ticker + '/intraday-prices/date/' + date + '/?chartIEXOnly=true&token=' + self.__token
+            resp = requests.get(url)
+            if resp.status_code != 200:
+                print('Something went wrong!')
+            if not(len(resp.json()) > 0):
+                days_back += 1
+
+            data = pd.Dataframe(resp.json())
+
+            #for item in resp.json():
+                #timestamp =
+                #ohlc.append({'date': item['date'], 'open': item['open'], 'high': item['high'], 'low': item['low'], 'close': item['close'], 'volume':item['volume']})
+            i += 1
+        return ohlc
 
 def main():
 
@@ -74,7 +98,11 @@ def main():
     # Uncomment the lines below to create an instance and retrieve the OHLC data for the previous 5 days for Apple Inc.
     # stk = Stock('AAPL')
 
-    pass  # remove this before running the code.
+    #pass  # remove this before running the code.
 
+    Stock.getSupportedStocks()
+    aapl = Stock('AAPL')
+
+    print(aapl.get_ohlc(1))
 
 main()
