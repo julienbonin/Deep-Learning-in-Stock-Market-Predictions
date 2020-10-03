@@ -1,0 +1,2 @@
+This link is a reference for how each indicator is calculated:
+https://docs.anychart.com/Stock_Charts/Technical_Indicators/Mathematical_Description
