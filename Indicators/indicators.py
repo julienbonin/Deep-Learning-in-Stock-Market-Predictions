@@ -5,3 +5,4 @@ from Indicators.MACD import moving_average_converge_diverge
 from Indicators.MFI import MFI
 from Indicators.RSI import RSI
 from Indicators.SMA import sma
+from Indicators.EMA import ema
