@@ -1,7 +1,7 @@
-import datetime
 import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
+import Indicators.indicators as indicators
 
 pd.set_option('display.max_rows', None)
 
@@ -147,6 +147,15 @@ def check_consistency(inconsistent_df):
     return inconsistent_df
 
 
+def calc_indicators(df_to_calc):
+    df_to_calc = indicators.sma()
+    df = indicators.ema()
+    df = indicators.moving_average_converge_diverge()
+    df = indicators.MFI()
+    df = indicators.RSI()
+    return df
+
+
 def main():
     error = 0
     biggest_df = ''
@@ -165,6 +174,7 @@ def main():
                 df = drop_non_business_days_and_trim_hours(df)
                 df = drop_incomplete_days(df)
                 df = check_consistency(df)
+                df = calc_indicators(df)
                 df.to_sql(i, create_engine_for_final_db(), if_exists='replace', index=False)
 
                 print(df_len)
