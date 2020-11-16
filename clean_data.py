@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
-import Indicators.indicators as indicators
+from indicator_imp import calc_indicators
+
 
 pd.set_option('display.max_rows', None)
 
@@ -88,7 +89,6 @@ def drop_day(df, current_id):
     str_day = str(pd.to_datetime(result.name).date())
     kk = df.loc[str_day]
     df.drop(labels=kk.index, axis='index', inplace=True)
-    df.to_csv("asdfasdfa.csv")
     return df
 
 
@@ -145,15 +145,6 @@ def check_consistency(inconsistent_df):
             continue
 
     return inconsistent_df
-
-
-def calc_indicators(df_to_calc):
-    df_to_calc = indicators.sma()
-    df = indicators.ema()
-    df = indicators.moving_average_converge_diverge()
-    df = indicators.MFI()
-    df = indicators.RSI()
-    return df
 
 
 def main():
