@@ -97,8 +97,8 @@ modelckpt_callback = keras.callbacks.ModelCheckpoint(
 #
 history = model.fit(
     X_train, y_train,
-    epochs=1,
-    batch_size=10,
+    epochs=30,
+    batch_size=16,
     validation_split=0.25,
     validation_data=dataset_val,
     verbose=1,
