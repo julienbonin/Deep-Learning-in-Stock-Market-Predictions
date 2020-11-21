@@ -1,5 +1,6 @@
 # indicators.py is just a helper file to return all indicators.
-# Necessary to call Indicators.indicaors[this file]
+# Necessary to call Indicators.indicators[this file]
+
 from Indicators.BOLLINGER_BANDS import BOLLINGER_BANDS
 from Indicators.MACD import moving_average_converge_diverge
 from Indicators.MFI import MFI

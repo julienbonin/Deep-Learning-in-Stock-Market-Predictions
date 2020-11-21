@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
-import Indicators.indicators as indicators
+from indicator_imp import calc_indicators
+
 
 pd.set_option('display.max_rows', None)
 
@@ -88,7 +89,6 @@ def drop_day(df, current_id):
     str_day = str(pd.to_datetime(result.name).date())
     kk = df.loc[str_day]
     df.drop(labels=kk.index, axis='index', inplace=True)
-    df.to_csv("asdfasdfa.csv")
     return df
 
 
@@ -147,15 +147,6 @@ def check_consistency(inconsistent_df):
     return inconsistent_df
 
 
-def calc_indicators(df_to_calc):
-    df_to_calc = indicators.sma()
-    df = indicators.ema()
-    df = indicators.moving_average_converge_diverge()
-    df = indicators.MFI()
-    df = indicators.RSI()
-    return df
-
-
 def main():
     error = 0
     biggest_df = ''
@@ -175,7 +166,9 @@ def main():
                 df = drop_incomplete_days(df)
                 df = check_consistency(df)
                 df = calc_indicators(df)
-                df.to_sql(i, create_engine_for_final_db(), if_exists='replace', index=False)
+                df.to_sql(i, create_engine_for_final_db(), if_exists='replace')
+
+
 
                 print(df_len)
             else:
@@ -196,6 +189,7 @@ def main():
             else:
                 print("Passed on:", i)
                 continue
+
         x += 1
     print(biggest_df)
 
