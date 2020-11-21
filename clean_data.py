@@ -166,7 +166,9 @@ def main():
                 df = drop_incomplete_days(df)
                 df = check_consistency(df)
                 df = calc_indicators(df)
-                df.to_sql(i, create_engine_for_final_db(), if_exists='replace', index=False)
+                df.to_sql(i, create_engine_for_final_db(), if_exists='replace')
+
+
 
                 print(df_len)
             else:
@@ -187,6 +189,7 @@ def main():
             else:
                 print("Passed on:", i)
                 continue
+
         x += 1
     print(biggest_df)
 

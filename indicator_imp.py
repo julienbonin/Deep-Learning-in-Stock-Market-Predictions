@@ -149,7 +149,7 @@ def calc_indicators(df_to_calc):
     df_to_calc['MFI_120'] = indicators.MFI(df_to_calc, 120)
     df_to_calc['MFI_240'] = indicators.MFI(df_to_calc, 240)
     df_to_calc['MFI_389'] = indicators.MFI(df_to_calc, 389)
-    
+
     df_to_calc['RSI_2'] = indicators.RSI(df_to_calc, 2)
     df_to_calc['RSI_5'] = indicators.RSI(df_to_calc, 5)
     df_to_calc['RSI_10'] = indicators.RSI(df_to_calc, 10)

@@ -1,3 +1,4 @@
+from os import path
 import pandas as pd
 from sqlalchemy import create_engine
 import numpy as np
@@ -38,10 +39,13 @@ def drop_incomplete_days(df_incomplete):
     return final_df
 
 
+def create_engine_for_final_db():
+    engine = create_engine('postgresql://django@68.226.133.212:5440/final_lstm_db')
+    return engine
+
 def create_engine_for_db():
     engine = create_engine('postgresql://django@68.226.133.212:5440/inner_db')
     return engine
-
 
 def get_list_of_symbols_from_db():
     symbols = pd.read_sql("stocks", create_engine_for_db())
@@ -51,7 +55,7 @@ def get_list_of_symbols_from_db():
 
 
 def get_dataframe(stock):
-    data = pd.read_sql(stock, create_engine_for_db())
+    data = pd.read_sql(stock, create_engine_for_final_db())
     return data
 
 
@@ -66,26 +70,7 @@ def clean_data_and_sort(unsorted_df):
     return sorted_df
 
 
-# stock_list = get_list_of_symbols_from_db()
-# for i in stock_list:
-#     x = 0
-#     error = 0
-#     try:
-#         df = get_dataframe(i)
-#         df = set_index_for_time_series(df)
-#         df = df.drop(columns=['index'], axis=1)
-#         df_len = len(df)
-#         df = resample_and_fill_in_na(df)
-#         df = drop_non_business_days_and_trim_hours(df)
-#         df = drop_incomplete_days(df)
-#         print(x, "/", len(stock_list), "    ", i, "           ", "error: ", error)
-#         if df_len > 0:
-#
-#
-#     except Exception as ex:
-#         print(ex)
-#         error += 1
-#     x += 1
+
 
 
 
@@ -98,13 +83,15 @@ for i in stock_list:
         df_len = len(df)
         print(x, "/", len(stock_list), "    ", i, "           ", "error: ", error)
         if df_len > 0:
-            df = clean_data_and_sort(df)
-            df = set_index_for_time_series(df)
-            df = resample_and_fill_in_na(df)
-            df = drop_non_business_days_and_trim_hours(df)
-            df = drop_incomplete_days(df)
-            with open("Data/all_data.csv", "a") as f:
-                df.to_csv(f, header=False, line_terminator="\n", sep=",")
+
+            # print(df.head())
+            if path.exists("Data/all_data.csv"):
+                with open("Data/all_data.csv", "a") as f:
+                    df.to_csv(f, header=False, line_terminator="\n", sep=",")
+            else:
+                with open("Data/all_data.csv", "a") as f:
+                    df.to_csv(f, header=True, line_terminator="\n", sep=",")
+
 
     except Exception as ex:
         print(ex)
